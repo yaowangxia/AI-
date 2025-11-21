@@ -241,9 +241,9 @@ export const generateProductPoster = async (
 
       finalPrompt = `${REF_IMAGE_PROMPT_PREFIX}
       
-      【Output Constraint】: The final image MUST maintain the aspect ratio of Image 1 (${ratioLabel}).
+      【强制约束】：最终输出图片的宽高比必须严格与第一张图（主商品图）保持一致（${ratioLabel}）。不要改变画布尺寸。
       
-      Details to generate: ${prompt}${AUTO_DETAIL_ENHANCEMENT}`;
+      生成细节描述：${prompt}${AUTO_DETAIL_ENHANCEMENT}`;
     }
 
     // 3. Global modifiers

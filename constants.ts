@@ -15,18 +15,16 @@ export const REMOVE_PROMPT = "【任务：智能消除】请移除画面中被�
 
 export const HD_SUFFIX = ", 8k resolution, hyper-detailed, photorealistic, sharp focus, professional photography, masterpiece, commercial ad level, ray tracing, top-tier CGI render, Hasselblad X2D 100C.";
 
-// Updated Logic: Stronger instruction to ignore reference composition and follow input aspect ratio
+// Updated Logic: Chinese instruction for Reference Mode to enforce Style Transfer over Structure Copying
 export const REF_IMAGE_PROMPT_PREFIX = `
-【Task: Adaptive Style Transfer & Scene Generation】
-1. Inputs Analysis:
-   - Image 1 (Base): The [Main Product] positioned on a canvas. **This canvas defines the OUTPUT ASPECT RATIO.**
-   - Image 2 (Reference): The [Style Source]. Use this ONLY for lighting, color palette, mood, and texture.
-2. Goal:
-   - Create a NEW scene for the [Main Product] that mimics the *vibe* of the [Style Source].
-   - **CRITICAL**: Do NOT copy the composition or aspect ratio of the Reference Image exactly.
-   - **CRITICAL**: Extend or crop the background to perfectly fit the aspect ratio of Image 1.
-   - If the Reference is horizontal but Output is vertical, generate more sky/ground naturally.
-   - Analyze the product's perspective and blend it realistically into this new, similar environment.
+【任务：自适应风格迁移与场景重构】
+1. 输入分析：
+   - 第一张图（主商品图）：这张图的画布比例定义了【最终输出的画幅尺寸】。请保持商品主体清晰。
+   - 第二张图（参考图）：仅提供【视觉风格参考】（包括光影氛围、配色方案、材质纹理）。
+2. 核心目标：
+   - 提取参考图的“感觉”和“氛围”，为主商品重新生成一个适配当前画幅的全新场景。
+   - **严禁**死板复制参考图的构图。如果参考图是横图但输出要求是竖图，请根据透视逻辑自然延伸天空、地面或背景。
+   - 分析商品的透视角度，将其自然地融合进这个新生成的、具有参考图风格的场景中。
 `;
 
 export const AUTO_DETAIL_ENHANCEMENT = ", commercial advertising photography, delicate product texture, natural lighting transitions, clean and premium look, flawless, cinematic lighting.";

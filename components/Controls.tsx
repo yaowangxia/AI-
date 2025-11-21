@@ -141,11 +141,15 @@ const Controls: React.FC<ControlsProps> = ({
     }
   };
 
+  const handleRefine = () => {
+      // This might be used if we want to auto-enhance user prompt, but currently unused
+  };
+
   const handleRefFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       onReferenceImageSelect(e.target.files[0]);
-      // Auto-fill prompt for reference style transfer
-      const autoPrompt = "Visual Style Transfer: Analyze the lighting, mood, and background texture of the reference image. Generate a NEW scene for the main product that mimics this style. Do not copy the reference composition exactly; adapt it to create a balanced commercial poster.";
+      // Auto-fill prompt for reference style transfer in CHINESE
+      const autoPrompt = "【风格迁移模式】请分析参考图的光影、配色和质感，为主体商品生成一个风格类似的全新场景。注意：请严格适配当前选择的画幅比例，不要生硬复制参考图的构图。";
       setCustomPrompt(autoPrompt);
       setPrompt(autoPrompt + (isHD ? HD_SUFFIX : ''));
     }
@@ -159,8 +163,7 @@ const Controls: React.FC<ControlsProps> = ({
     } else if (mode === GenerationMode.SCENE) {
       // If user switched to Reference mode but hasn't typed anything, give them a hint in prompt
       if (styleSource === 'REFERENCE' && !customPrompt) {
-          // This is handled by handleRefFileChange mostly, but as a fallback
-          const fallback = "Visual Style Transfer: Create a similar environment to the reference image but adapt the composition to fit the product naturally.";
+          const fallback = "【风格迁移】请生成一个与参考图氛围类似的场景，但需适配当前商品和画幅。";
           setPrompt(fallback + (isHD ? HD_SUFFIX : ''));
       } else if (customPrompt) {
         setPrompt(customPrompt + (isHD ? HD_SUFFIX : ''));
@@ -310,8 +313,8 @@ const Controls: React.FC<ControlsProps> = ({
             </span>
           ) : (
              styleSource === 'REFERENCE' && (
-              <span className="text-[10px] text-indigo-500 font-normal bg-indigo-50 px-2 py-0.5 rounded">
-                AI 将自动适配此比例
+              <span className="text-[10px] text-indigo-600 font-bold bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded animate-pulse">
+                AI 将强制适配此比例
               </span>
              )
           )}
@@ -399,15 +402,15 @@ const Controls: React.FC<ControlsProps> = ({
               </div>
            ) : (
               <div className="border-2 border-dashed border-slate-300 rounded-xl p-4 bg-slate-50">
-                 <label className="block text-xs font-medium text-slate-600 mb-2">上传参考海报 (复刻风格与光影)</label>
+                 <label className="block text-xs font-medium text-slate-600 mb-2">上传参考海报 (风格迁移)</label>
                  {!referenceImage ? (
                    <div 
                      onClick={() => refFileInputRef.current?.click()}
                      className="flex flex-col items-center justify-center py-6 px-4 bg-white rounded-lg border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all cursor-pointer text-center"
                    >
                      <ImagePlus className="w-6 h-6 text-indigo-400 mb-2" />
-                     <span className="text-sm text-indigo-600 font-medium">点击上传</span>
-                     <span className="text-xs text-slate-400 mt-1">AI 将模仿此图的光影和质感，但会自动适配您的尺寸</span>
+                     <span className="text-sm text-indigo-600 font-medium">点击上传参考图</span>
+                     <span className="text-xs text-slate-400 mt-1">AI 将学习此图的光影和质感，并自动适配上方选择的画幅</span>
                    </div>
                  ) : (
                    <div className="relative group rounded-lg overflow-hidden border border-slate-200 bg-white">
